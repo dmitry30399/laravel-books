@@ -30,7 +30,7 @@ export default {
     getBook() {
       this.loading = true;
       this.axios
-        .get(`http://localhost:8000/api/books/${this.$route.params.id}`)
+        .get(`/api/books/${this.$route.params.id}`)
         .then((response) => {
           this.book = response.data;
         })

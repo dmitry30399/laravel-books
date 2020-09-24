@@ -2326,7 +2326,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loading = true;
-      this.axios.get("http://localhost:8000/api/books/".concat(this.$route.params.id)).then(function (response) {
+      this.axios.get("/api/books/".concat(this.$route.params.id)).then(function (response) {
         _this.book = response.data;
       })["finally"](function () {
         _this.loading = false;
