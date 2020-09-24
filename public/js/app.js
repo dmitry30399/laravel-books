@@ -1931,6 +1931,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -38001,16 +38003,15 @@ var staticRenderFns = [
         staticStyle: { margin: "20px 0px 20px 0px" }
       },
       [
-        _c(
-          "a",
-          { attrs: { href: "https://www.mynotepaper.com/", target: "_blank" } },
-          [_c("img", { attrs: { src: "https://i.imgur.com/hHZjfUq.png" } })]
-        ),
+        _c("a", { attrs: { href: "/" } }, [
+          _c("img", { attrs: { src: "https://i.imgur.com/hHZjfUq.png" } })
+        ]),
+        _vm._v(" "),
         _c("br"),
         _vm._v(" "),
         _c("span", { staticClass: "text-secondary" }, [
           _vm._v(
-            "\n      Demo Library - Laravel & Vue CRUD Single Page Application (SPA)"
+            "\n      Demo Library - Laravel & Vue CRUD Single Page Application (SPA)\n    "
           )
         ])
       ]
