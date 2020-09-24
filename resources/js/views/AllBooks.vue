@@ -6,6 +6,7 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>ID</th>
           <th>ISBN</th>
           <th>Title</th>
           <th>Description</th>
@@ -15,8 +16,9 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="book in books" :key="book.id">
+      <tbody v-if="books.data">
+        <tr v-for="book in books.data" :key="book.id">
+          <td>{{ book.id }}</td>
           <td>{{ book.isbn }}</td>
           <td>{{ book.title }}</td>
           <td>{{ book.description }}</td>
@@ -40,22 +42,44 @@
         </tr>
       </tbody>
     </table>
+    <div class="float-right">
+      <Pagination :pagination="books" :onChangePage="onChangePage" :offset="books.offset" />
+    </div>
   </div>
 </template>
 
 <script>
+import Pagination from '../components/Pagination';
+
 export default {
+  name: 'AllBooks',
+  components: {
+    Pagination,
+  },
   data() {
     return {
-      books: [],
+      books: {
+        total: 0,
+        per_page: 5,
+        from: 1,
+        to: 0,
+        current_page: 1
+      },
+      offset: 4,
     };
   },
-  created() {
-    this.getBooks();
-  },
   methods: {
+    onChangePage(value) {
+      this.books.current_page = value;
+      this.getBooks();
+    },
     getBooks() {
-      this.axios.get("/api/books").then((response) => {
+      this.axios.get('/api/books', {
+        params: {
+          current_page: this.books.current_page,
+          per_page: this.books.per_page,
+        },
+      }).then((response) => {
         this.books = response.data;
       });
     },
@@ -67,6 +91,9 @@ export default {
           this.books.splice(i, 1);
         });
     },
+  },
+  created() {
+    this.getBooks();
   },
 };
 </script>

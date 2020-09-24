@@ -86,8 +86,6 @@ class ImportBooks extends Command
         return 0;
     }
 
-    // private downloadImage($url, )
-
     private function getXml()
     {
         $xml = $this->argument('xml');

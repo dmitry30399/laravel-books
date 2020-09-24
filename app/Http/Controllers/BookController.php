@@ -5,95 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\Paginator;
 use Image;
-
-// class BookController extends Controller
-// {
-//     /**
-//      * Display a listing of the resource.
-//      *
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function index()
-//     {
-//         //
-//     }
-
-//     /**
-//      * Show the form for creating a new resource.
-//      *
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function create()
-//     {
-//         //
-//     }
-
-//     /**
-//      * Store a newly created resource in storage.
-//      *
-//      * @param  \Illuminate\Http\Request  $request
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function store(Request $request)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Display the specified resource.
-//      *
-//      * @param  \App\Models\Book  $book
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function show(Book $book)
-//     {
-//         //
-//     }
-
-    
-//     /**
-//      * Show the form for editing the specified resource.
-//      *
-//      * @param  \App\Models\Book  $book
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function edit(Book $book)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Update the specified resource in storage.
-//      *
-//      * @param  \Illuminate\Http\Request  $request
-//      * @param  \App\Models\Book  $book
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function update(Request $request, Book $book)
-//     {
-//         //
-//     }
-
-//     /**
-//      * Remove the specified resource from storage.
-//      *
-//      * @param  \App\Models\Book  $book
-//      * @return \Illuminate\Http\Response
-//      */
-//     public function destroy(Book $book)
-//     {
-//         //
-//     }
-// }
 
 class BookController extends Controller
 {
-    // all books
-    public function index()
+    // List books
+    public function index(Request $request)
     {
-        $books = Book::all()->toArray();
-        return array_reverse($books);
+        $currentPage = $request->query('current_page', 1);
+        $perPage = $request->query('per_page', 15);
+        $books = Book::orderBy('updated_at', 'desc')->paginate($perPage, ['*'], 'page', $currentPage);
+        return response()->json($books);
     }
 
     // add book
@@ -114,14 +37,15 @@ class BookController extends Controller
         return response()->json('The book successfully added');
     }
 
-    // edit book
+    // Get a book by id
     public function edit($id)
     {
         $book = Book::find($id);
+        
         return response()->json($book);
     }
 
-    // update book
+    // Update book
     public function update($id, Request $request)
     {
         $book = Book::find($id);
@@ -130,7 +54,7 @@ class BookController extends Controller
         return response()->json('The book successfully updated');
     }
 
-    // delete book
+    // Delete book
     public function delete($id)
     {
         $book = Book::find($id);
