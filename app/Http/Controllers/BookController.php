@@ -101,7 +101,7 @@ class BookController extends Controller
     {
         $image = $request->file('image');
         $savedfileName = $this->storeImage($image);
-        $imageUrl = $request->root() . '/storage/images/' . $savedfileName;
+        $imageUrl = '/storage/images/' . $savedfileName;
 
         $book = new Book([
             'title' => $request->input('title'),
@@ -145,12 +145,10 @@ class BookController extends Controller
      * @param mixed $request
      * @return bool
      */
-    public function storeImage($image) {
-        // Get the original image extension
-        $extension = $image->getClientOriginalExtension();
-  
+    public function storeImage($image)
+    {
         // Create unique file name
-        $fileNameToStore = time().'.'.$extension;
+        $fileNameToStore = time().'.jpg';
   
         // Refer image to method resizeImage
         $save = $this->resizeImage($image, $fileNameToStore);
@@ -169,11 +167,10 @@ class BookController extends Controller
      * @param string $fileNameToStore
      * @return bool
      */
-    public function resizeImage($file, $fileNameToStore) {
+    public function resizeImage($file, $fileNameToStore)
+    {
         // Resize image
-        $resize = Image::make($file)->resize(200, 400, function ($constraint) {
-            $constraint->aspectRatio();
-        })->encode('jpg');
+        $resize = Image::make($file)->resize(200, 400)->encode('jpg');
   
         // Put image to storage
         $save = Storage::put("public/images/{$fileNameToStore}", $resize->__toString());
